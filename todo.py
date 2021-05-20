@@ -24,16 +24,17 @@ while True:
     input_ = input('Enter an option from above menu to perform an action: ')
 
     if input_ == '1':
-        task = input('Enter your task to add into the tasks list: ')
-        tasks.append(task)
+        task = input('Enter task name to add into the tasks list: ')
+        time = input('Enter date and time to get reminder: ')
+        tasks.append([task, time])
         with open('tasks.json', 'w') as f:
             json.dump(tasks, f)
         print(f'"{task}" added successfully to the tasks list.')
 
     elif input_ == '2':
-        task = input('Enter your task to remove from the tasks list: ')
-        if task in tasks:
-            tasks.remove(task)
+        task = input('Enter task name to remove from the tasks list: ')
+        if task in map(lambda x: x[0], tasks):
+            tasks.remove(next(filter(lambda x: task == x[0], tasks), None))
             with open('tasks.json', 'w') as f:
                 json.dump(tasks, f)
             print(f'"{task}" removed successfully from the tasks list.')
